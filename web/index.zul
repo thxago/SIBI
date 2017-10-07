@@ -19,7 +19,33 @@ Copyright (C) 2006 Potix Corporation. All Rights Reserved.
 }}IS_RIGHT
 -->
 <zk xmlns="http://www.zkoss.org/2005/zul">
-    <window>
-	My ZK application
-    </window>
+    <window id="win" border="normal" 
+            height="150px" width="400px" 
+            title="SIBI - Sistemas de Biblioteca" 
+            use="sibi.controle.Login_usuario"
+            position="center,center">
+        <grid>
+            <columns>
+                <column width="100px"/>
+                <column width="250px"/>
+
+            </columns>
+            <rows>
+                <row>
+                    Email:
+                    <textbox id="lb_login" width="230px"/>
+                </row>
+                <row>
+                    Senha:
+                    <textbox id="lb_senha" width="230px" type="password"/>
+                </row>
+                <row>
+                    <button id="bt_login" hflex="1" label="ENTRAR" onClick="win.efetuar_login()"/>
+                    <button id="bt_esqsenha" hflex="1" label="ESQUECI MINHA SENHA" onClick="win.esqueci_minha_senha()"/>
+
+                </row>
+            </rows>
+        </grid>
+
+    </window>    
 </zk>
