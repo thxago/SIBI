@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zk>  
+    <window border="normal" id="win" title="Efetuação de Emprestimo" use="sibi.controle.Efetuar_emprestimo"> 
+    <!--Comando necessário para a validação da sessão -->
+
+
+        <hbox>
+            <button width="100px" label="Novo"  onClick="win.novo()" />
+            <button width="100px" id="Terminar"  label="Gravar" onClick="win.terminar()" />
+            <button width="100px" label="Pesquisar" onClick='pesquisar.open(self,"before start");' />
+        </hbox>
+        <groupbox width="100%">
+            <caption>Dados do Usuário.</caption>
+            <grid style="border:0px">
+                <columns> 
+                    <column width="170px"/>
+                    <column />
+                </columns>
+                <rows>
+                    <row>
+                        Código do Usuário:
+                        <hbox align="center">
+                            <intbox id="cd_usuario"  width="100px"  />
+                            <button label="..." onClick='ppPesquisarUsuario.open(self,"before start");'/>
+                            <button label="Verificar Usuário" onClick="win.pesquisarUsuario()"/>
+                            Nome:
+                            <textbox id="nm_usuario" readonly="true"   width="500px"/>
+                        </hbox>
+                    </row>
+                    <row>
+                        Situação do Usuário:
+                        <textbox id="lt_status" readonly="true"  width="800px"/>
+                    </row>
+                </rows>
+            </grid>
+            <grid style="border:0px">
+                <columns>
+                    <column width="343px"/>
+                    <column/>
+                </columns>
+            </grid>
+        </groupbox>                      
+        <groupbox width="100%">
+            <caption>Material Bibliografico</caption>
+            <grid style="border:0px">
+                <columns> 
+                    <column width="170px"/>
+                    <column />
+                </columns>
+                <rows>
+                    <row>
+                        Código do material:
+                        <hbox align="center">
+                            <intbox id="cd_material_bibliografico"  width="100px"  />
+                            <button label="..." onClick='ppPesquisarMaterial.open(self,"before start");'/>
+                            <button label="Verificar Material" onClick="win.pesquisarMaterial()"/>
+                            Titulo da Obra:
+                            <textbox id="lt_nome" readonly="true"   width="500px"/>
+                        </hbox>
+                    </row>
+                    <row>
+                        Autor:
+                        <hbox>
+                            <textbox id="lt_autor" readonly="true" width="330px"/>
+                            Gênero:
+                            <textbox id="lt_genero" readonly="true" width="170px"/>
+                            Qtd. Disponível:
+                            <intbox id="nu_quantidade_estoque" readonly="true"  width="100px"/>
+                        </hbox>
+                    </row>
+                </rows>
+            </grid>
+        </groupbox> 
+
+        <groupbox width="100%">
+            <caption>Informações do Emprestimo</caption>
+            <grid style="border:0px">
+                <columns> 
+                    <column width="170px"/>
+                    <column />
+                </columns>
+                <rows>
+                    <row>
+                        Código de Emprestimo:
+                        <label id="cd_emprestimo" style="color:green" value="-1" />
+                    </row>
+                    <row>
+                        Data Emprestimo:
+                        <hbox>
+                        <datebox id="dt_emprestimo"/>
+                        Devolução:
+                        <datebox id="dt_devolucao"/>
+                        Renovações:
+                        <intbox id="nu_renovacao"/>
+                        </hbox>
+                    </row>
+                    <row>
+                        Situação:
+                        <textbox id="lt_situacao" width="800px"/>
+                    </row>
+                </rows>
+            </grid>
+        </groupbox> 
+
+
+        <popup  id="pesquisar" width="700px" >
+            <groupbox >
+                <caption label="Pesquisar Registro de Emprestimo"/>
+                <grid>
+                    <columns> 
+                        <column width="200px" />
+                        <column  />
+                    </columns>
+                    <rows>
+                        <row>
+                            Campos de Pesquisa:
+                            <listbox  id="vl_campo" mold="select">
+                                <listitem value = "cd_emprestimo" selected="true" >
+                                    <listcell label="Código do Emprestimo" />
+                                </listitem>
+                                <listitem value = "cd_usuario" >
+                                    <listcell label="Código do usuário" />
+                                </listitem>
+                            </listbox>
+                        </row>
+                        <row>
+                            Valor da Pesquisa:
+                            <textbox id="vl_pesquisa" width="300px"/>
+                        </row>
+                        <row>
+                            <button label="Pesquisar Registro" onClick="win.executarPesquisa()"/>
+                            <button label="Fechar Pesquisa" onClick="win.fecharPesquisa(1)"/>
+                        </row>
+                    </rows>
+                </grid>
+                <groupbox>
+                    <caption label="Resultado da Pesquisa" />
+                    <listbox id="resultados" height="300px"  width="655px" onDoubleClick="win.fecharPesquisa(2)" >
+                        <listhead sizable="true">
+                            <listheader width="180px" label="Cód. Emprestimo" onSort="auto"/>
+                            <listheader width="250px" label="Usuario" onSort="auto"/>
+                            <listheader label="Material" onSort="auto"/>
+                        </listhead>
+
+                    </listbox>
+                </groupbox>
+            </groupbox>
+        </popup>
+
+
+        <popup width="900px"  id="ppPesquisarMaterial" >
+            <groupbox>
+                <caption label="Pesquisar Material Bibliografico"/>
+                <grid>
+                    <columns> 
+                        <column width="200px" />
+                        <column  />
+                    </columns>
+                    <rows>
+                        <row>
+                            Titulo:
+                            <textbox id="pnm_material" width="300px"/>
+                        </row>
+                        <row>
+                            <button label="Pesquisar Registro" onClick="win.executarPesquisaMaterial()"/>
+                            <button label="Fechar Pesquisa" onClick="win.fecharPesquisaMaterial(1)"/>
+                        </row>
+                    </rows>
+                </grid>
+                <groupbox>
+                    <caption label="Resultado da Pesquisa" />
+                    <listbox id="resultados_material" height="350px"  width="800px"  onDoubleClick="win.fecharPesquisaMaterial(2)" >
+                        <!-- ALTERAR A CONFIGURAÇÃO DA LISTA QUE CONTERÁ OS RESULTADOS DA PESQUISA -->
+                        <listhead>
+                            <listheader width="90px" label="Código" sort="auto"/>
+                            <listheader width="400px" label="Material" sort="auto"/>
+                            <listheader width="300px" label="Autor" sort="auto"/>
+                        </listhead>
+                    </listbox>
+                </groupbox>
+            </groupbox>
+        </popup>
+        
+        
+        
+        <popup width="900px"  id="ppPesquisarUsuario" >
+            <groupbox>
+                <caption label="Pesquisar Usuario"/>
+                <grid>
+                    <columns> 
+                        <column width="200px" />
+                        <column  />
+                    </columns>
+                    <rows>
+                        <row>
+                            Nome:
+                            <textbox id="pnm_usuario" width="300px"/>
+                        </row>
+                        <row>
+                            <button label="Pesquisar Usuário" onClick="win.executarPesquisaUsuario()"/>
+                            <button label="Fechar Pesquisa" onClick="win.fecharPesquisaUsuario(1)"/>
+                        </row>
+                    </rows>
+                </grid>
+                <groupbox>
+                    <caption label="Resultado da Pesquisa" />
+                    <listbox id="resultados_usuario" height="350px"  width="800px" onDoubleClick="win.fecharPesquisaUsuario(2)">
+                        <!-- ALTERAR A CONFIGURAÇÃO DA LISTA QUE CONTERÁ OS RESULTADOS DA PESQUISA -->
+                        <listhead>
+                            <listheader width="90px" label="Código" sort="auto"/>
+                            <listheader width="400px" label="Nome" sort="auto"/>
+                            <listheader width="300px" label="Status" sort="auto"/>
+                        </listhead>
+                    </listbox>
+                </groupbox>
+            </groupbox>
+        </popup>
+
+        
+
+
+    </window>
+</zk>
