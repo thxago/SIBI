@@ -14,7 +14,7 @@ import utilitarios.Utils;
 
 /**
  *
- * @author admin
+ * @author alsnogtix
  */
 public class EmprestimoDAO {
     
@@ -38,7 +38,7 @@ public class EmprestimoDAO {
     
          
     // pesquisa de registro
-    public List pesquisar(String valorCampo, String valorPesquisa) {
+    public List pesquisar(String valorPesquisa) {
         Utils Ut = new Utils();
         SQLUtil sqlu = new SQLUtil();
         String sql = "select "
@@ -46,34 +46,10 @@ public class EmprestimoDAO {
                 + "b.nm_usuario, "
                 + "c.lt_nome "
                 + "from app.emprestimo a, app.usuario b, app.material_bibliografico c "
-                +"where a.cd_usuario = b.cd_usuario and a.cd_material_bibliografico = c.cd_material_bibliografico and " ;
-
-
-        if (valorCampo.equals("cd_emprestimo")) {
-            int num = 0;
-            try {
-                num = Integer.parseInt(valorPesquisa); // tenta jogar o valor do textfield na variável do tipo int
-
-            } catch (NumberFormatException ex) {
-                num = 0; // caso não seja possível (se o valor do text field for vazio ou uma letra) a variável vai receber 0.
-
-                valorPesquisa = "0";
-            }
-            sql += valorCampo + "=" + valorPesquisa;
-
-        } else if (valorCampo.equals("cd_usuario")) {
-            int num = 0;
-            try{
-                num = Integer.parseInt(valorPesquisa);
-                
-            }catch(NumberFormatException ex){
-                num = 0;
-                valorPesquisa = "0";
-            }
-            sql += valorCampo + "=" + valorPesquisa;
+                +"where a.cd_usuario = b.cd_usuario and "
+                + "a.cd_material_bibliografico = c.cd_material_bibliografico "
+                + "and cd_emprestimo = " + valorPesquisa ;
         
-        }
-
         return sqlu.pesquisar(sql);
     }
     
@@ -131,6 +107,17 @@ public class EmprestimoDAO {
                 + " lt_status "
                 + " FROM app.usuario "
                 + " WHERE cd_usuario = " + cd_usuario;        
+        SQLUtil sqlu = new SQLUtil();
+        return sqlu.pesquisar(sql);
+        
+    }
+    
+    public List buscarUsuarioEmail(String cd_usuario){
+        Utils Ut = new Utils();
+        String sql= "SELECT NM_USUARIO, "
+                + " lt_status "
+                + " FROM app.usuario "
+                + " WHERE lt_email = " + cd_usuario;        
         SQLUtil sqlu = new SQLUtil();
         return sqlu.pesquisar(sql);
         

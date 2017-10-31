@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+        
+    <window id="winMenu" border="normal" use="sibi.controle.Opcoes_gerente">
+        <include class="header" src="op_gerente.zul" />
+
+        <include id="tela" sclass="content"/>
+         
+        <include class="footer" src="footer.zul" />
+
+    </window>
+
+</zk>

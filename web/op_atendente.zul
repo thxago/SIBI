@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+     <menubar id="menubar" autodrop="true">
+        <menu label="CADASTRO">
+            <menupopup>
+                <menuitem label="ATENDENTE" onClick="winMenu.cadastroAtendente()"/>
+                <menuitem label="BIBLIOTECONOMISTA" onClick="winMenu.cadastroBiblioteconomista()"/>
+                <menuitem label="MATERIAL BIBLIOGRAFICO" onClick="winMenu.cadastroMaterialBibliografico()"/>
+                <menuitem label="USUARIO" onClick="winMenu.cadastroUsuario()"/>
+
+            </menupopup>
+
+        </menu>
+
+        <menu label="MOVIMENTAÇÃO">
+            <menupopup>
+                <menuitem label="EMPRÉSTIMO" onClick="winMenu.movimentacaoEmprestimo()"/>
+                <menuitem label="DEVOLUÇÃO" onClick="winMenu.movimentacaoDevolucao()"/>
+                <menuitem label="SOLICITAÇÕES DE EMPRÉSTIMO" onClick="winMenu.solicitacoesEmprestimo()"/>
+            </menupopup>
+        </menu>
+
+        <menuitem label="SAIR" href="/"/>
+    </menubar>
+
+    
+</zk>

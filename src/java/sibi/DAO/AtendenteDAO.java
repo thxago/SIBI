@@ -7,18 +7,16 @@ package sibi.DAO;
 
 import java.util.List;
 import org.hibernate.Session;
-import org.zkoss.zul.impl.Utils;
 import sibi.persistencia.Atendente;
 import sibi.utilitarios.HibernateUtil;
 import sibi.utilitarios.SQLUtil;
+import utilitarios.Utils;
 
 /**
  *
  * @author alsnogtix
  */
 public class AtendenteDAO {
-    
-
     
     
     public long incluir(Atendente novo) {
@@ -174,7 +172,13 @@ public class AtendenteDAO {
         
     }
     
-
-
-
+    public List recuperaAtendente(String login){
+        SQLUtil sqlu = new SQLUtil();
+        String sql = "select "
+                +"lt_senha "
+                +"from app.atendente "
+                +"where lt_email = " + "'" + login + "'";
+        return sqlu.pesquisar(sql);
+    }
+    
 }

@@ -46,5 +46,17 @@ Contributor(s):
     <property name="hibernate.connection.url">jdbc:derby://localhost:1527/sample</property>
     <property name="hibernate.connection.username">app</property>
     <property name="hibernate.connection.password">app</property>
+    <!-- List of annotated classes -->
+    <property name="hibernate.show_sql">true</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
+    <mapping class="sibi.persistencia.Usuario"/>
+    <mapping class="sibi.persistencia.Material_bibliografico"/>
+    <mapping class="sibi.persistencia.Atendente"/>
+    <mapping class="sibi.persistencia.Biblioteconomista"/>
+    <mapping class="sibi.persistencia.Gerente"/>
+    <mapping class="sibi.persistencia.Emprestimo"/>
+    <mapping class="sibi.persistencia.Reserva"/>
+    <mapping class="sibi.persistencia.SolicitarEmprestimo"/>
   </session-factory>
 </hibernate-configuration>

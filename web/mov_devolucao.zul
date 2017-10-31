@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+
+    <window border="normal" id="win" title="Efetuar Devolução" use="sibi.controle.Efetuar_devolucao"> 
+        <hbox>
+            <button width="100px" label="Novo"  onClick="win.novo()" />
+            <button width="100px" id="btDevolucao" label="Devolução" onClick="win.terminar()" />
+            <button width="100px" label="Pesquisar" onClick='pesquisar.open(self,"before start");' />
+            <button width="100px" label="pagamento" onClick="win.pagamento()" />
+        </hbox>
+        <groupbox width="100%">
+            <caption>Empréstimo</caption>
+            <grid style="border:0px">
+                <columns> 
+                    <column width="170px"/>
+                    <column />
+                </columns>
+                <rows>
+                    <row>
+                        Código do Empréstimo:
+                        <hbox>
+                            <label id="cd_emprestimo" style="color:green" value="0"/>
+                            <space/>
+                            Situação:
+                            <textbox id="lt_situacao" readonly="true" width="520px"/>
+                        </hbox>
+                        
+                    </row>
+                    <row>
+                        Código do Usuário:
+                        <hbox align="center">
+                            <intbox id="cd_usuario"  width="70px" readonly="true" />
+                            <space/>
+                            Nome:
+                            <textbox id="nm_usuario" readonly="true"   width="500px"/>
+                        </hbox>
+                    </row>
+                    <row>
+                        Situação do Usuário:
+                        <textbox id="lt_status" readonly="true"  width="550px"/>
+                    </row>
+                    <row>
+                        Cód. Material:
+                        <hbox>
+                            <intbox id="cd_material_bibliografico" width="70px" readonly="true" />
+                            <space/>
+                            Titulo:
+                            <textbox id="lt_nome" readonly="true" width="500px"/>
+                        </hbox>
+                    </row>
+                    <row>
+                        Data Empréstimo:
+                        <hbox>
+                            <datebox id="dt_emprestimo" locale="pt_BR" buttonVisible="false" />
+                            <space/>
+                            Data Devolução:
+                            <datebox id="dt_devolucao" locale="pt_BR" buttonVisible="false" />
+                            <space/>
+                            Multa:
+                            <decimalbox id="db_multa" readonly="true" format="R$ #,###,###.00"/>
+                        </hbox>
+
+                    </row>
+                </rows>
+            </grid>
+        </groupbox>   
+        
+        
+        <popup  id="pesquisar" width="700px" >
+            <groupbox >
+                <caption label="Pesquisar Empréstimo"/>
+                <grid>
+                    <columns> 
+                        <column width="200px" />
+                        <column  />
+                    </columns>
+                    <rows>
+                        <row>
+                            Campos de Pesquisa:
+                            <listbox  id="vl_campo" mold="select">
+                                <listitem value = "cd_emprestimo" selected="true" >
+                                    <listcell label="Cód. Emprestimo" />
+                                </listitem>
+                                <listitem value = "cd_usuario" >
+                                    <listcell label="Cód. Usuario" />
+                                </listitem>
+                                <listitem value = "cd_material_bibliografico" >
+                                    <listcell label="Cód. Material" />
+                                </listitem>
+                            </listbox>
+                        </row>
+                        <row>
+                            Valor da Pesquisa:
+                            <textbox id="vl_pesquisa" width="300px"/>
+                        </row>
+                        <row>
+                            <button label="Pesquisar Registro" onClick="win.executarPesquisa()"/>
+                            <button label="Fechar Pesquisa" onClick="win.fecharPesquisa(1)"/>
+                        </row>
+                    </rows>
+                </grid>
+                <groupbox>
+                    <caption label="Resultado da Pesquisa" />
+                    <listbox id="resultados" height="300px"  width="655px" onDoubleClick="win.fecharPesquisa(2)" >
+                        <listhead sizable="true">
+                            <listheader width="100px" label="Cód. Emp." onSort="auto"/>
+                            <listheader width="100px" label="Usuario" onSort="auto"/>
+                            <listheader label="Material" onSort="auto"/>
+                        </listhead>
+
+                    </listbox>
+                </groupbox>
+            </groupbox>
+        </popup>
+        
+    </window>
+
+
+</zk>

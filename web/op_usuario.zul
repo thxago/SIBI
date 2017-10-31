@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window>
+        
+        <menubar id="menubar" autodrop="true">
+            <menu label="CADASTRO">
+                <menupopup>
+                    <menuitem label="ALTERAR CADASTRO" onClick="winMenu.cadastroUsuario()"/>
+                </menupopup>
+
+            </menu>
+            <menu label="MOVIMENTAÇÃO">
+                <menupopup>
+                    <menuitem label="SOLICITAR RESERVA" onClick="winMenu.movimentacaoReserva()"/>
+                    <menuitem label="RENOVAÇÃO" onClick="winMenu.movimentacaoRenovacao()"/>
+                    <menuitem label="SOLICITAR EMPRÉSTIMO" onClick="winMenu.solicitarEmprestimo()"/>
+                </menupopup>
+            </menu>
+
+            <menuitem label="SAIR" href="/"/>
+        </menubar>
+
+    </window>
+</zk>

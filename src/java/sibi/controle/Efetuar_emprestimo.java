@@ -47,7 +47,6 @@ public class Efetuar_emprestimo extends Window {
     private Textbox nm_usuario;
     private Textbox lt_status;
     
-    private Listbox vl_campo;
     private Textbox vl_pesquisa;
     private Listbox resultados;
     private Popup ppPesquisar;
@@ -85,7 +84,6 @@ public class Efetuar_emprestimo extends Window {
         this.setCd_usuario((Intbox) getFellow("cd_usuario"));
         this.setNm_usuario((Textbox) getFellow("nm_usuario"));
         this.setLt_status((Textbox) getFellow("lt_status"));
-        this.setVl_campo((Listbox) getFellow("vl_campo"));
         this.setVl_pesquisa((Textbox) getFellow("vl_pesquisa"));
         this.setResultados((Listbox) getFellow("resultados"));
         this.setPpPesquisar((Popup) getFellow("pesquisar"));
@@ -139,7 +137,7 @@ public class Efetuar_emprestimo extends Window {
                 if (getEnt().getCd_emprestimo()> 0) {
                     Messagebox.show("Empréstimo realizado com sucesso", "Gravar Registro", Messagebox.OK , Messagebox.INFORMATION);
                 } else {
-                    Messagebox.show("Sistema encontrou um erro ao tentar efetuar o empréstimo!", "Gravar Registro", Messagebox.OK , Messagebox.ERROR);
+                    Messagebox.show("Sistema encontrou um erro ao tentar efetuar emprestimo!", "Gravar Registro", Messagebox.OK , Messagebox.ERROR);
                 }
             }
         }
@@ -148,14 +146,14 @@ public class Efetuar_emprestimo extends Window {
      //executa pesquisa de um registro de concessao de recurso
     public void executarPesquisa() {
 
-        if (getVl_campo().getSelectedCount() != 0 && getVl_pesquisa().getValue() != null) {
+        if (getVl_pesquisa().getValue() != null) {
             getResultados().getItems().clear();
-            this.setResultadosPesquisa(getDAO().pesquisar(getVl_campo().getSelectedItem().getValue().toString(), getVl_pesquisa().getValue()));
+            this.setResultadosPesquisa(getDAO().pesquisar(getVl_pesquisa().getValue()));
 
             if (this.getResultadosPesquisa().isEmpty()) {
                 try {
                     Messagebox.show("Não foram encontrados registros!", "Pesquisar Registro", Messagebox.OK , Messagebox.INFORMATION);
-                    this.getVl_campo().setSelectedIndex(0);
+                    
                     this.getVl_pesquisa().setValue(null);
 
                 } catch (Exception ex) {
@@ -177,6 +175,7 @@ public class Efetuar_emprestimo extends Window {
 
                     item.appendChild(cellCd_emprestimo);
                     item.appendChild(cellCd_usuario);
+                    item.appendChild(cellLt_nome);
 
                     item.setValue(obj[0].toString());
 
@@ -184,11 +183,9 @@ public class Efetuar_emprestimo extends Window {
 
                 }
             }
-            
-
         } else {
             try {
-                Messagebox.show("Campo e/ou valor da pesquisa inválido", "Pesquisar Registro", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Valor da pesquisa inválido", "Pesquisar Registro", Messagebox.OK , Messagebox.INFORMATION);
             } catch (Exception ex) {
                 Logger.getLogger(Efetuar_emprestimo.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -210,7 +207,6 @@ public class Efetuar_emprestimo extends Window {
             if (tipo == 2){
                 popularCampos();
             }
-            this.getVl_campo().setSelectedIndex(0);
             this.getVl_pesquisa().setValue(null);
             this.getResultados().getItems().clear();
 
@@ -246,7 +242,7 @@ public class Efetuar_emprestimo extends Window {
         
         if (getCd_usuario().getValue() == null || getCd_usuario().getValue() == 0) {
             try {
-                Messagebox.show("Entre com o código do usuário", "Validar", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Entre com o código do usuário", "Validar", Messagebox.OK , Messagebox.INFORMATION);
 
             } catch (Exception ex) {
                 Logger.getLogger(Efetuar_emprestimo.class
@@ -265,7 +261,7 @@ public class Efetuar_emprestimo extends Window {
 
             if (getNm_usuario().getValue() == null || getNm_usuario().getValue().equals("")) {
                 try {
-                    Messagebox.show("Código Inválido ou Não Localizado!", "Validar", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                    Messagebox.show("Código Inválido!", "Validar", Messagebox.OK , Messagebox.INFORMATION);
                     getNm_usuario().setValue(null);
                     getLt_status().setValue(null);
 
@@ -279,7 +275,7 @@ public class Efetuar_emprestimo extends Window {
 
         } catch (Exception ex) {
             try {
-                Messagebox.show("Código Inválido ou Não Localizado!", "Validar", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Código Inválido!", "Validar", Messagebox.OK , Messagebox.INFORMATION);
                 getNm_usuario().setValue(null);
                 getLt_status().setValue(null);
             } catch (Exception ex1) {
@@ -344,7 +340,7 @@ public class Efetuar_emprestimo extends Window {
         
         if (getCd_material_bibliografico().getValue() == null || getCd_material_bibliografico().getValue() == 0) {
             try {
-                Messagebox.show("Entre com o código do material", "Validar", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Entre com o código do material", "Validar", Messagebox.OK , Messagebox.INFORMATION);
 
             } catch (Exception ex) {
                 Logger.getLogger(Efetuar_emprestimo.class
@@ -365,7 +361,7 @@ public class Efetuar_emprestimo extends Window {
 
             if (getLt_nome().getValue() == null || getLt_nome().getValue().equals("")) {
                 try {
-                    Messagebox.show("Código Inválido ou Não Localizado!", "Validar", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                    Messagebox.show("Código Inválido!", "Validar", Messagebox.OK , Messagebox.INFORMATION);
                     getLt_nome().setValue(null);
                     getLt_autor().setValue(null);
                     getLt_genero().setValue(null);
@@ -381,7 +377,7 @@ public class Efetuar_emprestimo extends Window {
 
         } catch (Exception ex) {
             try {
-                Messagebox.show("Código Inválido ou Não Localizado!", "Validar", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Código Inválido!", "Validar", Messagebox.OK , Messagebox.INFORMATION);
                 getLt_nome().setValue(null);
                 getLt_autor().setValue(null);
                 getLt_genero().setValue(null);
@@ -404,7 +400,7 @@ public class Efetuar_emprestimo extends Window {
 
             if (this.getResultadosPesquisaMaterial().isEmpty()) {
                 try {
-                    Messagebox.show("Não foram encontrados registros!", "Pesquisar Registro", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                    Messagebox.show("Não foram encontrados registros!", "Pesquisar Registro", Messagebox.OK , Messagebox.INFORMATION);
                     this.getPnm_material().setValue(null);
 
                 } catch (Exception ex) {
@@ -438,7 +434,7 @@ public class Efetuar_emprestimo extends Window {
 
         } else {
             try {
-                Messagebox.show("Campo e/ou valor da pesquisa inválido", "Pesquisar Registro", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Valor da pesquisa inválido", "Pesquisar Registro", Messagebox.OK , Messagebox.INFORMATION);
             } catch (Exception ex) {
                 Logger.getLogger(Efetuar_emprestimo.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -489,7 +485,7 @@ public class Efetuar_emprestimo extends Window {
 
         } else {
             try {
-                Messagebox.show("Campo e/ou valor da pesquisa inválido", "Pesquisar Registro", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Valor da pesquisa inválido", "Pesquisar Registro", Messagebox.OK , Messagebox.INFORMATION);
             } catch (Exception ex) {
                 Logger.getLogger(Efetuar_emprestimo.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -692,20 +688,6 @@ public class Efetuar_emprestimo extends Window {
      */
     public void setLt_status(Textbox lt_status) {
         this.lt_status = lt_status;
-    }
-
-    /**
-     * @return the vl_campo
-     */
-    public Listbox getVl_campo() {
-        return vl_campo;
-    }
-
-    /**
-     * @param vl_campo the vl_campo to set
-     */
-    public void setVl_campo(Listbox vl_campo) {
-        this.vl_campo = vl_campo;
     }
 
     /**
