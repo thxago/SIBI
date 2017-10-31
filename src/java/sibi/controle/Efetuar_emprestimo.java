@@ -110,7 +110,7 @@ public class Efetuar_emprestimo extends Window {
         this.getLt_genero().setValue("");
         this.getNu_quantidade_estoque().setValue(null);
         
-        this.getCd_emprestimo().setValue("-1");
+        this.getCd_emprestimo().setValue("0");
         this.getDt_emprestimo().setValue(null);
         this.getDt_devolucao().setValue(null);
         this.getLt_situacao().setValue("");
@@ -133,13 +133,13 @@ public class Efetuar_emprestimo extends Window {
             getEnt().setCd_usuario(this.getCd_usuario().getValue());
             getEnt().setCd_material_bibliografico(this.getCd_material_bibliografico().getValue());
             
-            if (this.getCd_emprestimo().getValue().equals("-1")) {
+            if (this.getCd_emprestimo().getValue().equals("0")) {
                 getDAO().incluir(getEnt());
                 this.getCd_emprestimo().setValue(String.valueOf(getEnt().getCd_emprestimo()));
                 if (getEnt().getCd_emprestimo()> 0) {
-                    Messagebox.show("Emprestimo realizado com sucesso", "Gravar Registro", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                    Messagebox.show("Empréstimo realizado com sucesso", "Gravar Registro", Messagebox.OK , Messagebox.INFORMATION);
                 } else {
-                    Messagebox.show("Sistema encontrou um erro ao tentar efetuar emprestimo!", "Gravar Registro", Messagebox.OK | Messagebox.CANCEL, Messagebox.ERROR);
+                    Messagebox.show("Sistema encontrou um erro ao tentar efetuar o empréstimo!", "Gravar Registro", Messagebox.OK , Messagebox.ERROR);
                 }
             }
         }
@@ -154,7 +154,7 @@ public class Efetuar_emprestimo extends Window {
 
             if (this.getResultadosPesquisa().isEmpty()) {
                 try {
-                    Messagebox.show("Não foram encontrados registros!", "Pesquisar Registro", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                    Messagebox.show("Não foram encontrados registros!", "Pesquisar Registro", Messagebox.OK , Messagebox.INFORMATION);
                     this.getVl_campo().setSelectedIndex(0);
                     this.getVl_pesquisa().setValue(null);
 
@@ -455,7 +455,7 @@ public class Efetuar_emprestimo extends Window {
 
             if (this.getResultadosPesquisaUsuario().isEmpty()) {
                 try {
-                    Messagebox.show("Não foram encontrados registros!", "Pesquisar Registro", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                    Messagebox.show("Não foram encontrados registros!", "Pesquisar Registro", Messagebox.OK , Messagebox.INFORMATION);
                     this.getPnm_usuario().setValue(null);
 
                 } catch (Exception ex) {

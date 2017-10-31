@@ -5,12 +5,29 @@
  */
 package sibi.controle;
 
+import java.util.List;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.mail.Address;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import org.zkoss.zk.ui.Executions;
-import org.zkoss.zul.Messagebox;
 import org.zkoss.zul.Textbox;
 import org.zkoss.zul.Window;
+import org.zkoss.zul.Messagebox;
+import sibi.DAO.AtendenteDAO;
+import sibi.DAO.BiblioteconomistaDAO;
+import sibi.DAO.GerenteDAO;
+import sibi.DAO.MaterialBibliograficoDAO;
+import sibi.DAO.UsuarioDAO;
+
+
 
 
 /**
@@ -34,24 +51,16 @@ public class Login_usuario extends Window{
     public void onCreate(){
         this.setLb_login((Textbox) getFellow("lb_login"));
         this.setLb_senha((Textbox) getFellow("lb_senha"));
-//        Executions.sendRedirect("cad_usuario.zul");
     }
     
 
 
     public void efetuar_login(){
         
-        if(getLb_login().getValue().isEmpty() || getLb_senha().getValue().isEmpty()){
-            try{
-                Messagebox.show("Campo Login e Senha estão vazios", "Login", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
-            } catch(Exception ex){
-                Logger.getLogger(Login_usuario.class.getName()).log(Level.SEVERE, null, ex);
-            }
-                    
-        }else if(!getUsuarioDAO().buscarUsuario(getLb_login().getValue(), getLb_senha().getValue()).isEmpty()){
+        if(!getUsuarioDAO().buscarUsuario(getLb_login().getValue(), getLb_senha().getValue()).isEmpty()){
             boolean r = getUsuarioDAO().buscaPendencia(this.getLb_login().getValue());
             if(r){
-                Messagebox.show("Você possui pendencias no sistema, procure a biblioteca assim que possível", "Controle de Usuários", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Você possui pendências no sistema, por favor, procure a biblioteca.", "Controle de Usuários", Messagebox.OK , Messagebox.INFORMATION);
                 
             }else{
                 Executions.sendRedirect("menuUsuario.zul");
@@ -69,18 +78,89 @@ public class Login_usuario extends Window{
 
         }else{
             try{
-                Messagebox.show("Usuario não encontrado", "Login", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+                Messagebox.show("Email ou Senha incorreto(s).", "Login", Messagebox.OK , Messagebox.INFORMATION);
             } catch(Exception ex){
                 Logger.getLogger(Login_usuario.class.getName()).log(Level.SEVERE, null, ex);
             }
-//            Executions.sendRedirect("gerente.zul");
         }
     }
 
     public void esqueci_minha_senha(){
-        Messagebox.show("Não podemos ajudar no momento", "Login", Messagebox.OK | Messagebox.CANCEL, Messagebox.INFORMATION);
+        
+        if(!getUsuarioDAO().recuperaUsuario(getLb_login().getValue()).isEmpty()){
+            List list = getUsuarioDAO().recuperaUsuario(this.getLb_login().getValue());
+            String password = "";
+            for (Object s : list){
+                password += s;
+            }
+            envia_email(password);
+        }else if(!getGerenteDAO().recuperaGerente(getLb_login().getValue()).isEmpty()){
+            List list = getGerenteDAO().recuperaGerente(this.getLb_login().getValue());
+            String password = "";
+            for (Object s : list){
+                password += s;
+            }
+            envia_email(password);
+        }else if(!getAtendenteDAO().recuperaAtendente(getLb_login().getValue()).isEmpty()){
+            List list = getAtendenteDAO().recuperaAtendente(this.getLb_login().getValue());
+            String password = "";
+            for (Object s : list){
+                password += s;
+            }
+            envia_email(password);
+        }else if(!getBiblioteconomistaDAO().recuperaBiblioteconomista(getLb_login().getValue()).isEmpty()){
+            List list = getBiblioteconomistaDAO().recuperaBiblioteconomista(this.getLb_login().getValue());
+            String password = "";
+            for (Object s : list){
+                password += s;
+            }
+            envia_email(password);
+        }else{
+            try{
+                Messagebox.show("Email não encontrado", "Recupera Senha", Messagebox.OK , Messagebox.INFORMATION);
+            } catch(Exception ex){
+                Logger.getLogger(Login_usuario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
+    
+    public void envia_email(String password){
+        String senha = password;
+        String email = getLb_login().getValue();
+        
+        Properties props = new Properties();
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.socketFactory.port", "465");
+                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.port", "465");
 
+                Session session = Session.getDefaultInstance(props,
+                            new javax.mail.Authenticator() {
+                                 protected PasswordAuthentication getPasswordAuthentication() 
+                                 {
+                                       return new PasswordAuthentication("sibi2017iss@gmail.com", "sibi2017iss!@#");
+                                 }
+                            });
+                session.setDebug(true);
+                try {
+
+                      Message message = new MimeMessage(session);
+                      message.setFrom(new InternetAddress("sibi2017iss@gmail.com")); //Remetente
+
+                      Address[] toUser = InternetAddress //Destinatário(s)
+                                 .parse(email);  
+                      message.setRecipients(Message.RecipientType.TO, toUser);
+                      message.setSubject("Recuperação de senha SIBI");//Assunto
+                      message.setText("Olá,\nConforme solicitado, segue sua senha para acesso ao SIBI: "+senha+
+                              "\n\nObs: E-mail automático. Por favor, não respode-lo.");
+
+                      Transport.send(message);
+                      Messagebox.show("Senha enviada para o email: "+email, "Recupera Senha", Messagebox.OK , Messagebox.INFORMATION);
+                 } catch (MessagingException e) {
+                      throw new RuntimeException(e);
+                }
+    }
 
     /**
      * @return the win
@@ -195,5 +275,4 @@ public class Login_usuario extends Window{
     public void setMaterialBibliograficoDAO(MaterialBibliograficoDAO materialBibliograficoDAO) {
         this.materialBibliograficoDAO = materialBibliograficoDAO;
     }
-    
 }
