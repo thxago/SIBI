@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<zk xmlns="http://www.zkoss.org/2005/zul">
+    <window id="win" border="normal" use="sibi.controle.Efetuar_renovacao">
+             
+        <hbox>
+            <button width="100px" label="Limpar"  onClick="win.novo()" />
+            <button width="100px" label="Renovar" onClick="win.renovar()" />
+            <button width="100px" label="Pesquisar" onClick='pesquisar.open(self,"before start");' />
+        </hbox>
+                  
+        <groupbox width="100%">
+            <caption>Material Bibliografico</caption>
+            <grid style="border:0px">
+                <columns> 
+                    <column width="170px"/>
+                    <column />
+                </columns>
+                <rows>
+                    <row>
+                        Código do material:
+                        <hbox align="center">
+                            <intbox id="cd_material_bibliografico"  width="100px"  />
+                            <space/>
+                            Titulo da Obra:
+                            <textbox id="lt_nome" readonly="true"   width="500px"/>
+                        </hbox>
+                    </row>
+                    <row>
+                        Autor:
+                        <hbox>
+                            <textbox id="lt_autor" readonly="true" width="330px"/>
+                            Gênero:
+                            <textbox id="lt_genero" readonly="true" width="170px"/>
+                        </hbox>
+                        
+                    </row>
+                    <row>
+                        Data de Devolução:
+                        <hbox>
+                            <datebox id="dt_devolucao" readonly="true" buttonVisible="false"/>
+                            Situação:
+                            <textbox id="lt_situacao" readonly="true"/>
+                        </hbox>
+                    </row>
+                    <row>
+                        Renovações:
+                        <intbox id="nu_renovacao" readonly="true"/>
+                    </row>
+                </rows>
+            </grid>
+        </groupbox> 
+        
+        <popup  id="pesquisar" width="700px" >
+            <groupbox >
+                <caption label="Pesquisar Emprestimo"/>
+                <grid>
+                    <columns> 
+                        <column width="200px" />
+                        <column  />
+                    </columns>
+                    <rows>
+                        <row>
+                            Código de usuário:
+                            <intbox id="cd_usuario" />
+                        </row>
+                        
+                        <row>
+                            <button label="Pesquisar Registro" onClick="win.executarPesquisa()"/>
+                            <button label="Fechar Pesquisa" onClick="win.fecharPesquisa(1)"/>
+                        </row>
+                    </rows>
+                </grid>
+                <groupbox>
+                    <caption label="Resultado da Pesquisa" />
+                    <listbox id="resultados" height="300px"  width="655px" onDoubleClick="win.fecharPesquisa(2)" >
+                        <listhead sizable="true">
+                            <listheader width="75px" label="Cód. Emp." onSort="auto"/>
+                            <listheader width="180px" label="Dt. Devolução" onSort="auto"/>
+                            <listheader label="Material" onSort="auto"/>
+                        </listhead>
+
+                    </listbox>
+                </groupbox>
+            </groupbox>
+        </popup>
+
+
+        
+    </window>
+</zk>
